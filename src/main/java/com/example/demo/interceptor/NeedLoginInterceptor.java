@@ -29,6 +29,15 @@ public class NeedLoginInterceptor implements HandlerInterceptor {
 			return false;
 
 		}
+		
+		if(rq.getLoginedMember().isDelStatus()) {
+			System.out.println("==============탈퇴한 회원임============");
+//			resp.getWriter().append("<script>~~~")
+
+			rq.printHistoryBack("탈퇴한 회원입니다.");
+
+			return false;
+		}
 
 		return HandlerInterceptor.super.preHandle(req, resp, handler);
 	}

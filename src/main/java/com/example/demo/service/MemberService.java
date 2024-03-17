@@ -52,4 +52,9 @@ public class MemberService {
 		return memberRepository.getMember(id);
 	}
 
+	public void deleteMember(int id) {
+		memberRepository.deleteMember(id);
+	}
+
+
 }

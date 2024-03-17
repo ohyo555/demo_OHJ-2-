@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.MemberService;
 import com.example.demo.util.Ut;
+import com.example.demo.vo.Article;
 import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultData;
 import com.example.demo.vo.Rq;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UsrMemberController {
 
 	@Autowired
 	private Rq rq;
-	
+
 	@Autowired
 	private MemberService memberService;
 
@@ -45,13 +45,13 @@ public class UsrMemberController {
 		if (rq.isLogined()) {
 			return Ut.jsHistoryBack("F-A", "이미 로그인 함");
 		}
-		
+
 		return "usr/member/login";
 	}
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpServletRequest req, HttpSession httpSession, String loginId, String loginPw) {
+	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
@@ -76,8 +76,6 @@ public class UsrMemberController {
 			return Ut.jsHistoryBack("F-4", Ut.f("비밀번호가 일치하지 않습니다"));
 		}
 
-		httpSession.setAttribute("loginedMemberNickname", member.getNickname());
-		
 		rq.login(member);
 
 		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getNickname()), "/");
@@ -94,7 +92,7 @@ public class UsrMemberController {
 
 		return "usr/member/join";
 	}
-	
+
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
 	public String doJoin(HttpServletRequest req, String loginId, String loginPw, String name, String nickname,
@@ -118,6 +116,7 @@ public class UsrMemberController {
 		}
 		if (Ut.isNullOrEmpty(cellphoneNum)) {
 			return Ut.jsHistoryBack("F-5", "전화번호를 입력해주세요");
+
 		}
 		if (Ut.isNullOrEmpty(email)) {
 			return Ut.jsHistoryBack("F-6", "이메일을 입력해주세요");
@@ -131,6 +130,20 @@ public class UsrMemberController {
 
 		Member member = memberService.getMember(joinRd.getData1());
 
-		return Ut.jsReplace(joinRd.getResultCode(), joinRd.getMsg(), "../member/login");
+		return Ut.jsReplace("S-1", joinRd.getMsg(), "../member/login");
 	}
+	
+	@RequestMapping("/usr/member/doDelete")
+	@ResponseBody
+	public String showdel(HttpServletRequest req) {
+
+		Rq rq = (Rq) req.getAttribute("rq");
+
+		int id = rq.getLoginedMemberId();
+		
+		memberService.deleteMember(id);
+
+		return Ut.jsReplace("S-1", "탈퇴 완료","../home/main");
+	}
+	
 }

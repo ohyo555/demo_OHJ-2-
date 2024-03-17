@@ -3,9 +3,9 @@ package com.example.demo.repository;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.vo.Member;
-import com.example.demo.vo.ResultData;
 
 @Mapper
 public interface MemberRepository {
@@ -44,11 +44,7 @@ public interface MemberRepository {
 	@Select("SELECT * FROM `member` WHERE id = #{id}")
 	public Member getMember(int id);
 
-	@Select("""
-			SELECT loginPw
-			FROM `member`
-			WHERE loginId = #{loginId}
-			""")
-	public String login(String loginId, String loginPw);
+	@Update("UPDATE `member` SET delStatus = 1, delDate = NOW() WHERE id = #{id}")
+	public void deleteMember(int id);
 
 }

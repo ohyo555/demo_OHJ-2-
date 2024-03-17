@@ -29,21 +29,16 @@
 			<div class="flex-grow"></div>
 			<ul class="flex">
 				<li><a class="hover:underline" href="/"><i class="fa-solid fa-house-chimney"></i></a></li>
-				<li><a class="hover:underline" href="../article/list"><i class="fa-solid fa-list"></i></a>
-					<ul>
-						<li><a class="hover:underline" href="../article/list?boardId=1&page=1">NOTICE</a></li>
-						<li><a class="hover:underline" href="../article/list?boardId=2&page=1">FREE</a></li>
-						<li><a class="hover:underline" href="../article/list?boardId=3&page=1">QnA</a></li>
-					</ul></li>
+				<li><a class="hover:underline" href="../article/list">목록</a>
 				<li><a class="hover:underline" href="../article/write">글쓰기</a></li>
 				<c:if test="${rq.loginedMemberId == 0}">
-				<li><a class="hover:underline" href="../member/login"><i class="fa-solid fa-right-to-bracket"></i></a></li>
-				<li><a class="hover:underline" href="../member/join"><i class="fa-solid fa-address-card"></i></a></li>
+				<li><a class="hover:underline" href="../member/login">로그인</a></li>
+				<li><a class="hover:underline" href="../member/join">회원가입</a></li>
 				</c:if>
 				<c:if test="${rq.loginedMemberId != 0}">
-				<li><a class="hover:underline" href="../article/write"><i class="fa-solid fa-pen-to-square"></i></a></li>
 				<li><a onclick="if(confirm('로그아웃 할래?') == false) return false;" class="hover:underline"
-							href="../member/doLogout"><i class="fa-solid fa-right-from-bracket"></i></a></li>
+							href="../member/doLogout">로그아웃</a></li>
+				<a onclick="if(confirm('정말 탈퇴하시겠습니까?') == false) return false;" href="../member/doDelete?id=${member.id }">탈퇴</a>
 				</c:if>
 			</ul>
 		</div>

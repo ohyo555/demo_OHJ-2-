@@ -1,9 +1,8 @@
+
 package com.example.demo.util;
 
 import java.lang.reflect.Array;
 import java.util.Map;
-
-import jakarta.servlet.http.HttpSession;
 
 public class Ut {
 
@@ -77,18 +76,6 @@ public class Ut {
 					location.replace('%s');
 				</script>
 				""", resultMsg, replaceUri);
-	}
-
-	public static int loginedId(HttpSession httpSession) {
-		
-		int loginedMemberId = 0;
-		
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
-		}
-		
-		return loginedMemberId;
-		
 	}
 
 }
